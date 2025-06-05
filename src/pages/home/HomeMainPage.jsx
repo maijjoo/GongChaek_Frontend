@@ -1,33 +1,71 @@
 import { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+
+import { useQuery } from "@tanstack/react-query";
+
 import {
   getAIRecommend,
   getBestSeller,
   getCategoryBest,
 } from "../../api/home/homeBookApi";
+
 import BasicLayout from "../../layouts/BasicLayout";
 import { TitleSearch } from "../../layouts/TopLayout";
+
 import HomeBooksList from "../../components/home/HomeBookLIst";
-import { PiTargetBold, PiHeartFill, PiMedalFill } from "react-icons/pi";
+import TabCondition from "../../components/commons/TabCondition";
 import LoadingPage from "../LoadingPage";
 import LoadingSpinner from "../../components/commons/LoadingSpinner";
-import TabCondition from "../../components/commons/TabCondition";
+
+import { PiTargetBold, PiHeartFill, PiMedalFill } from "react-icons/pi";
 
 // 책 추천 홈 페이지
 const HomePage = () => {
   const navigate = useNavigate();
-  const location = useLocation();
-  const { AIBook } = location?.state || [];
-  const [AIRecommend, setAIRecommend] = useState([]); // AI 추천 상태
-  const [categoryBest, setCategoryBest] = useState([]); // 카테고리별 추천 상태
-  const [bestSeller, setBestSeller] = useState([]); // 베스트셀러 상태
-  const [tabs, setTabs] = useState([]);
-  const [activeTab, setActiveTab] = useState(tabs[0]); // 기본 선택 탭
-  const [isLoading, setIsLoading] = useState(true); // 로딩 상태 추가
-  const [isAILoading, setIsAILoading] = useState(false);
+  const [activeTab, setActiveTab] = useState(null);
 
-  const AIComment = (
+  // 베스트셀러 쿼리
+  const {
+    data: bestSeller = [],
+    isLoading: bestLoading,
+    error: bestError,
+  } = useQuery({
+    queryKey: ["bestSeller"],
+    queryFn: getBestSeller,
+  });
+
+  // 카테고리별 추천 쿼리
+  const {
+    data: categoryBest = {},
+    isLoading: categoryLoading,
+    error: categoryError,
+  } = useQuery({
+    queryKey: ["categoryBest"],
+    queryFn: getCategoryBest,
+  });
+
+  // AI 추천 쿼리
+  const {
+    data: aiRecommend = [],
+    isLoading: aiLoading,
+    isError: aiError,
+  } = useQuery({
+    queryKey: ["aiRecommend"],
+    queryFn: getAIRecommend,
+  });
+
+  // 응답 빠른 API를 도착 즉시 렌더링하기 위한 변수
+  const otherLoading = bestLoading || categoryLoading;
+
+  // 카드 클릭 시 상세 페이지로 이동
+  const handleCardClick = (book) => {
+    navigate(`detail/${book.isbn13}`);
+  };
+
+  // 로딩 피드백 텍스트
+  const AILoadingMessage = (
     <>
+      <LoadingSpinner size={"sm"} />
       <p className="text-und14 text-undtextgray">
         AI가 내 책장을 분석중이에요!
       </p>
@@ -35,128 +73,27 @@ const HomePage = () => {
     </>
   );
 
-  const [aiLoadingComment, setAILoadingComment] = useState(AIComment);
+  // 에러 피드백 텍스트
+  const AIFailMessage = (
+    <p className="text-und14 text-undred">
+      AI가 책장을 분석하는 중 오류가 발생했어요😢
+    </p>
+  );
 
+  // activeTab 초기화
   useEffect(() => {
-    if (AIBook && AIBook.length > 0) {
-      setAIRecommend(AIBook);
+    if (!categoryBest || typeof categoryBest !== "object") return;
+
+    const keys = Object.keys(categoryBest);
+    if (keys.length > 0 && !activeTab) {
+      console.log("💡 setting activeTab to:", keys[0]);
+      setActiveTab(keys[0]);
     }
-  }, [location]);
-
-  useEffect(() => {
-    const abortController = new AbortController();
-    let isCancelled = false;
-
-    const fetchData = async () => {
-      try {
-        setIsLoading(true);
-
-        const categoryBestList = await fetchCategoryBest(
-          abortController.signal
-        );
-        if (!isCancelled) {
-          setCategoryBest(categoryBestList);
-          const categoryTabs = Object.keys(categoryBestList);
-          setTabs(categoryTabs);
-          setActiveTab(categoryTabs[0]);
-        }
-
-        const bestSellerList = await fetchBestSeller(abortController.signal);
-        if (!isCancelled) {
-          setBestSeller(bestSellerList);
-        }
-      } catch (error) {
-        if (!isCancelled) {
-          console.error(error);
-        }
-      } finally {
-        if (!isCancelled) {
-          setIsLoading(false); // 모든 데이터 로딩 후 로딩 상태 해제}
-        }
-      }
-    };
-
-    const fetchAIData = async () => {
-      try {
-        setIsAILoading(true);
-
-        const AIRecommendList = await fetchAIRecommend(abortController.signal);
-
-        if (!isCancelled) {
-          setAIRecommend(AIRecommendList);
-        }
-      } catch (error) {
-        if (!isCancelled) {
-          console.error(error);
-        }
-        setAILoadingComment(
-          <p className="text-und14 text-undred">
-            AI가 책장을 분석하는 중 오류가 발생했어요😢
-          </p>
-        );
-      } finally {
-        if (!isCancelled) {
-          setIsAILoading(false);
-        }
-      }
-    };
-
-    fetchData();
-
-    if (!AIBook || AIBook.length === 0) fetchAIData();
-
-    return () => {
-      isCancelled = true;
-      abortController.abort();
-    };
-  }, []);
-
-  // 베스트 셀러 API
-  const fetchBestSeller = async (signal) => {
-    try {
-      const response = await getBestSeller(signal);
-      return Array.isArray(response.data) ? response.data : [];
-    } catch (error) {
-      return error;
-    }
-  };
-
-  // 취향 맞춤 API
-  const fetchCategoryBest = async (signal) => {
-    try {
-      const response = await getCategoryBest(signal);
-      setTabs(Object.keys(response.data));
-      setActiveTab(Object.keys(response.data)[0]);
-      return response.data;
-    } catch (error) {
-      return error;
-    }
-  };
-
-  // AI 추천 API
-  const fetchAIRecommend = async (signal) => {
-    try {
-      console.log(AIBook);
-
-      const response = await getAIRecommend(signal);
-      return Array.isArray(response.data) ? response.data : [];
-    } catch (error) {
-      console.error(error);
-      return [];
-    }
-  };
-
-  // 카드 클릭 시 상세 페이지로 이동
-  const handleCardClick = (book) => {
-    navigate(`detail/${book.isbn13}`, {
-      replace: true,
-      state: { AIBook: AIRecommend },
-    });
-  };
+  }, [categoryBest]);
 
   return (
     <BasicLayout>
-      {isLoading ? (
+      {otherLoading ? (
         <LoadingPage />
       ) : (
         <div>
@@ -164,7 +101,7 @@ const HomePage = () => {
           <div className="fixed top-0 left-0 w-full z-50 bg-undbgmain">
             <TitleSearch title={"홈"} showLine={true} />
           </div>
-          {/* 베스트 셀러 목록 */}
+          {/* 베스트 셀러 */}
           <div className="pt-20 pl-6 pb-10">
             <div className="flex w-full h-full pb-2">
               <PiMedalFill size={24} color="#D55636" />
@@ -172,9 +109,12 @@ const HomePage = () => {
                 주간 베스트 셀러
               </p>
             </div>
-            <HomeBooksList books={bestSeller} onCardClick={handleCardClick} />
+            <HomeBooksList
+              books={Array.isArray(bestSeller) ? bestSeller : []}
+              onCardClick={handleCardClick}
+            />
           </div>
-          {/* 취향 맞춤 추천 도서 목록 */}
+          {/* 카테고리 추천 도서 */}
           <div className="pb-10">
             <div className="flex w-full h-full pb-2 pl-6">
               <PiHeartFill size={24} color="#D55636" />
@@ -184,7 +124,7 @@ const HomePage = () => {
             </div>
             <div className="pb-4">
               <TabCondition
-                tabs={tabs}
+                tabs={Object.keys(categoryBest || {})}
                 activeTab={activeTab}
                 setActiveTab={setActiveTab}
                 showLine={false}
@@ -193,28 +133,32 @@ const HomePage = () => {
             {activeTab && (
               <div className="pl-6">
                 <HomeBooksList
-                  books={categoryBest[activeTab]}
+                  books={
+                    Array.isArray(categoryBest[activeTab])
+                      ? categoryBest[activeTab]
+                      : []
+                  }
                   onCardClick={handleCardClick}
                 />
               </div>
             )}
           </div>
-          {/* AI 추천 목록 */}
-          <div className="pb-20 pl-6">
+          {/* AI 추천 도서 */}
+          <div className="pb-20 px-6">
             <div className="flex w-full h-full pb-2">
               <PiTargetBold size={24} color="#D55636" />
               <p className="ml-2 font-heavy text-undtextdark text-und18">
                 AI 추천 도서
               </p>
             </div>
-            {isAILoading ? (
-              <div>
-                <LoadingSpinner size={"sm"} />
-                {aiLoadingComment}
-              </div>
+            {/* AI 추천 도서 비동기 렌더링, 에러, 로딩 피드백 */}
+            {aiLoading ? (
+              AILoadingMessage
+            ) : aiError ? (
+              AIFailMessage
             ) : (
               <HomeBooksList
-                books={AIRecommend}
+                books={Array.isArray(aiRecommend) ? aiRecommend : []}
                 onCardClick={handleCardClick}
               />
             )}

@@ -17,8 +17,7 @@ const AdminPage = () => {
       alert("잘못된 접근 입니다.");
       navigate("/", { replace: true });
     }
-  }),
-    [isAdmin, navigate];
+  }, [isAdmin, navigate]);
 
   // 초기 정보 로드
   useEffect(() => {

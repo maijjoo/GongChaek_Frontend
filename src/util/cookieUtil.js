@@ -6,7 +6,12 @@ export const setCookie = (name, value, days = 1) => {
   const expires = new Date();
   expires.setUTCDate(expires.getUTCDate() + days);
 
-  return cookies.set(name, value, { expires: expires, path: "/" });
+  return cookies.set(name, value, {
+    expires: expires,
+    path: "/",
+    secure: true,
+    sameSite: "Strict",
+  });
 };
 
 export const getCookie = (name) => {

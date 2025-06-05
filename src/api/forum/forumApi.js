@@ -11,8 +11,6 @@ export const getForums = async (status, sort, search, lastId = null) => {
   if (lastId) {
     apiRoute += `&lastId=${lastId}`;
   }
-  console.log("api route: ", apiRoute);
-  console.log("lastId: ", lastId);
 
   const res = await jwtAxios.get(apiRoute);
   return res.data.data;
@@ -21,7 +19,6 @@ export const getForums = async (status, sort, search, lastId = null) => {
 // 토론 상세
 export const getForumDetail = async (discussionId) => {
   const res = await jwtAxios.get(`${host}/detail?discussionId=${discussionId}`);
-  console.log("res: ", res);
 
   return res.data.data;
 };
@@ -39,7 +36,6 @@ export const addJoinDisagree = async (discussionId) => {
   const res = await jwtAxios.post(
     `${host}/joinDisagree?discussionId=${discussionId}`
   );
-  console.log("=========postJoinDisagree from api: ", res);
   return res;
 };
 

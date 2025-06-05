@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { PiMagnifyingGlass, PiBarcode } from "react-icons/pi";
-import ISBNScanner from "./ISBNScanner";
+import ISBNScanner3 from "./ISBNScanner3";
 import ISBNReader from "./ISBNReader";
 import { useNavigate } from "react-router-dom";
 
@@ -76,7 +76,7 @@ const ISBNBookSearch = ({ onSearchSubmit, searchHistory = null }) => {
       </button>
       {/* ISBN 스캔 모달 렌더링 */}
       {isScannerActive && (
-        <ISBNScanner
+        <ISBNScanner3
           onSwitchToCapture={handleSwitchToCapture}
           onCloseScannner={handleCloseScanner}
           onSuccessScan={handleSuccessToGetISBN}

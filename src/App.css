@@ -11,24 +11,20 @@ body,
   position: fixed !important;
   bottom: 0px !important; /* 원하는 위치로 조정 */
 }
-
 /* Datepicker 전체 스타일 커스터마이징 */
 .datepicker {
   border-radius: 1.5rem 1.5rem 0px 0px !important; /* 둥근 모서리 */
   background-color: #ffffff !important;
 }
-
 /* 헤더 스타일 */
 .datepicker-header {
   background-color: #7d5c4d;
   color: #7d5c4d !important;
 }
-
 /* 휠 영역 스타일 */
 .datepicker-content {
   margin: 1.5rem;
 }
-
 /* 선택된 휠 스타일 */
 .datepicker-wheel {
   background-color: white;
@@ -37,7 +33,6 @@ body,
   color: white !important;
   font-size: 0.875rem !important;
 }
-
 /* 버튼 영역 스타일 */
 .datepicker-navbar {
   background-color: #ffffff;
@@ -49,7 +44,6 @@ body,
   margin-right: 1.5rem;
   margin-bottom: 1.5rem;
 }
-
 /* 버튼 공통 스타일 */
 .datepicker-navbar-btn {
   border-radius: 0.5rem;
@@ -60,13 +54,11 @@ body,
   align-items: center;
   justify-content: center;
 }
-
 /* 왼쪽 버튼 스타일 */
 .datepicker-navbar-btn:nth-child(1) {
   background: #7d5c4d;
   color: white !important;
 }
-
 /* 오른쪽 버튼 스타일 */
 .datepicker-navbar-btn:nth-child(2) {
   background: #eee9e4;
