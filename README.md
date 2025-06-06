@@ -18,27 +18,48 @@
 
 ## 🛠️ 사용 기술 스택
 
-### 💻 프론트엔드 & 개발 환경
+<br />
 
+### 💻 프론트엔드 & 개발 환경
 ![React](https://img.shields.io/badge/React-61DAFB?logo=react&logoColor=000)
 ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=000)
+![PWA](https://img.shields.io/badge/PWA-5A0FC8?logo=pwa&logoColor=white)
 ![Vite](https://img.shields.io/badge/Vite-646CFF?logo=vite&logoColor=white)
 ![TailwindCSS](https://img.shields.io/badge/TailwindCSS-38B2AC?logo=tailwindcss&logoColor=white)
-![React Router](https://img.shields.io/badge/React_Router-CA4245?logo=reactrouter&logoColor=white)
+
+<br/>
 
 ### 🔧 상태 관리 & 비동기 통신
-
-![React Query](https://img.shields.io/badge/React_Query-FF4154?logo=reactquery&logoColor=white)
+![TanStack Query](https://img.shields.io/badge/TanStack_Query-FF4154?logo=reactquery&logoColor=white)
 ![Redux](https://img.shields.io/badge/Redux-764ABC?logo=redux&logoColor=white)
 ![Axios](https://img.shields.io/badge/Axios-5A29E4?logo=axios&logoColor=white)
+![RESTful API](https://img.shields.io/badge/RESTful_API-4AB197?logo=web&logoColor=white)
+
+<br />
 
 ### 🚀 배포 & 협업 도구
-
+![Amazon EC2](https://img.shields.io/badge/Amazon_EC2-FF9900?logo=amazon-ec2&logoColor=white)
+![Amazon RDS](https://img.shields.io/badge/Amazon_RDS-527FFF?logo=amazonrds&logoColor=white)
+![Amazon S3](https://img.shields.io/badge/Amazon_S3-569A31?logo=amazonaws&logoColor=white)
 ![Netlify](https://img.shields.io/badge/Netlify-00C7B7?logo=netlify&logoColor=white)
+
 ![Git](https://img.shields.io/badge/Git-F05032?logo=git&logoColor=white)
 ![GitHub](https://img.shields.io/badge/GitHub-181717?logo=github&logoColor=white)
+![GitHub Actions](https://img.shields.io/badge/GitHub_Actions-2088FF?logo=githubactions&logoColor=white)
+
+![Postman](https://img.shields.io/badge/Postman-FF6C37?logo=postman&logoColor=white)
 ![Figma](https://img.shields.io/badge/Figma-F24E1E?logo=figma&logoColor=white)
+![Notion](https://img.shields.io/badge/Notion-000000?logo=notion&logoColor=white)
 ![Google Docs](https://img.shields.io/badge/Google%20Docs-4285F4?logo=googledocs&logoColor=white)
+
+<br />
+
+### 🌐 외부 서비스 연동 (Open API & 클라우드)
+![Aladin API](https://img.shields.io/badge/Aladin_API-0080C0?logo=openaccess&logoColor=white)
+![Kakao Login](https://img.shields.io/badge/Kakao_Login-FFCD00?logo=kakaotalk&logoColor=000)
+![Kakao Message](https://img.shields.io/badge/Kakao_Message-FFCD00?logo=kakaotalk&logoColor=000)
+![OpenAI API](https://img.shields.io/badge/ChatGPT_API-10A37F?logo=openai&logoColor=white)
+![Perplexity API](https://img.shields.io/badge/Perplexity_API-9146FF?logo=search&logoColor=white)
 
 <br />
 
@@ -105,9 +126,9 @@
 
 | 이름        | 역할       | 담당 영역 및 주요 업무                                                                                                                                                                                          |
 | --------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| 이석현 (본인) | 풀스택 개발 | - React 기반 SPA 구조 설계<br>- Vite + Tailwind + ESLint/Prettier 초기 환경 세팅<br>- Zustand/Redux + React Query 상태 관리 설계 및 구현<br>- 재사용 가능한 UI 컴포넌트 구현<br>- 반응형 및 접근성 고려한 UI/UX 설계<br>- Netlify CI/CD 및 운영 자동화 구축 |
-| 프론트 A     | 프론트엔드 개발 | - 도서 상세/책갈피/한줄평 페이지 구현<br>- React Router 기반 라우팅 구조 구성<br>- 사용자 인터랙션 중심 기능 개발<br>- Figma 기반 컴포넌트 구현                                                                                                     |
-| 풀스택 B     | 풀스택 개발   | - 전체 기술 구조 통합 및 배포 환경 조율<br>- API 스키마 및 DB 모델 설계<br>- 카카오톡 메시지 전송 기능 구현<br>- 프론트-백 연동 및 CORS, 인증 처리                                                                                                    |
+| 이석현 (본인) | 풀스택 개발 | Front-end<br>- Vite + Tailwind + ESLint/Prettier 초기 환경 세팅<br>- 담당 페이지 구현<br>- Netlify CI/CD 및 운영 자동화 구축<br>- 전체 디버깅 및 리팩토링<br>Back-end<br>-S3 설정 및 연동<br>-유저 프로필 수정 기능 구현 |
+| 프론트 A     | 프론트엔드 개발 | - 홈 화면 구현<br>- 사용자 인터랙션 중심 기능 개발<br>- Figma 기반 컴포넌트 구현                                                                                                     |
+| 프론트 B     | 풀스택 개발   | - 전체 기술 구조 통합 및 배포 환경 조율<br>- API 스키마 및 DB 모델 설계<br>- 카카오톡 메시지 전송 기능 구현<br>- 프론트-백 연동 및 CORS, 인증 처리                                                                                                    |
 | 백엔드 C     | 백엔드 개발   | - 사용자 인증/인가 및 토큰 기반 로그인 API<br>- 도서 정보, 책갈피, 유저 데이터 관련 CRUD API 구현<br>- MongoDB 기반 데이터 모델링 및 최적화                                                                                                       |
 | 백엔드 D     | 백엔드 개발   | - 전체 API 문서화 (Swagger/OpenAPI 등)<br>- 에러 핸들링 및 응답 코드 표준화<br>- 서버 로깅 및 배포 자동화 스크립트 관리                                                                                                                   |
 
